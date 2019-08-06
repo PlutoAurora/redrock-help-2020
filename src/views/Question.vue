@@ -6,6 +6,7 @@
       <div class="user">
         <img :src="oneQuestion.author.avatar">
         <span class="name">{{ oneQuestion.author.name }}</span>
+        <span class="status">{{ oneQuestion.status }}</span>
       </div>
       <div class="content">
         {{ oneQuestion.content }}
@@ -54,8 +55,12 @@ export default {
     background: @mainColor;
     margin: 30px;
   }
+  .status {
+    margin: 0 30px 0 auto;
+  }
 }
 .content {
+  line-height: 40px;
   margin: 0 30px 30px 30px;
 }
 .images {

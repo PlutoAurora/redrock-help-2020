@@ -5,12 +5,14 @@
       <div class="question">来自于问题“{{item.question.content}}”</div>
       <div class="info">
         <div class="time">{{item.createdAt|date}}</div>
-
-        <div class="action">
-          <AnswerAction class="action" :item="item" />
-          <div class="delete">删除</div>
-        </div>
-
+        <AnswerAction
+          class="action"
+          :item="item"
+        />
+        <div
+          class="delete"
+          @click="handelDeleteClick(item.id)"
+        >删除</div>
       </div>
     </div>
   </div>
@@ -28,8 +30,13 @@ export default {
   name: "profileAnswer",
   components: {
     AnswerAction,
-    AnswerOpposeSvg,
-    AnswerApprovalSvg
+  },
+  data () {
+    return {
+      isShowToast: false,
+      deleteTipmassage: '',
+      deleteId: null,
+    }
   },
   props: {
     commentData: {
@@ -53,10 +60,12 @@ export default {
   padding: 30px 30px 20px 30px;
   border-radius: 10px;
   .comment {
+    @nowrap();
     font-size: 40px;
     margin-bottom: 20px;
   }
   .question {
+    @nowrap();
     color: @fontColor;
     font-size: 30px;
     margin-bottom: 30px;
