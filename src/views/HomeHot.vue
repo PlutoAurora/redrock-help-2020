@@ -21,11 +21,32 @@ export default {
     HomeHotTag,
   },
   mounted () {
-    this.$store.dispatch(FETCH_QUESTION_HOT)
+    this.$store.dispatch(FETCH_QUESTION_HOT,this.hotPage)
+    window.addEventListener('scroll',this.handleScroll)
+     
+    
   },
   computed: {
-    ...mapGetters(['questionList']),
+    ...mapGetters(['hotPage','questionList']),
   },
+  methods:{
+   handleScroll(){
+     let scrollTop = document.documentElement.scrollTop
+     let client = document.documentElement.clientHeight
+     let scrollHeight = document.documentElement.scrollHeight
+     
+     if (scrollTop+client >= scrollHeight){
+       this.loadMore()
+      
+
+     }
+
+   },
+   loadMore(){
+   
+    
+   }
+  }
 }
 </script>
 
