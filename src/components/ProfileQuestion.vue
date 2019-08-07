@@ -8,7 +8,10 @@
       v-for="item of questionData"
       :key="item.id"
     >
-      <p class="content">{{item.content}}</p>
+      <p
+        class="content"
+        @click="handelQuestionClick(item.id)"
+      >{{item.content}}</p>
 
       <div class="tips">
         <span class="time">{{item.createdAt | date}}</span>
@@ -115,10 +118,6 @@ export default {
   }
   .tips {
     display: flex;
-    justify-content: space-between;
-    .action{
-      display: flex;
-    }
     span {
       color: @fontColor;
       font-size: 24px;

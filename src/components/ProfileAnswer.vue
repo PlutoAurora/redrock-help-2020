@@ -1,6 +1,10 @@
 <template>
   <div v-if="!isLoading">
-    <div class="box" v-for="item in commentData" :key="item.id">
+    <div
+      class="box"
+      v-for="item in commentData"
+      :key="item.id"
+    >
       <div class="comment">{{item.content}}</div>
       <div class="question">来自于问题“{{item.question.content}}”</div>
       <div class="info">
@@ -15,16 +19,20 @@
         >删除</div>
       </div>
     </div>
+    <VToast
+      v-show="isShowToast"
+      :massage="deleteTipmassage"
+      @confirm="handelDeleteConfirm"
+      @cancel="handelDeleteCancel"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import { FETCH_PROFILE_COMMENT } from "@/store/type/actions";
-import AnswerOpposeSvg from "@/assets/svg/AnswerOppose.svg";
-import AnswerApprovalSvg from "@/assets/svg/AnswerApproval.svg";
+import { FETCH_PROFILE_COMMENT, FETCH_DELETE_ANSWER } from "@/store/type/actions";
 
-import AnswerAction from "@/components/AnswerAction";
+import AnswerAction from '@/components/AnswerAction'
 
 export default {
   name: "profileAnswer",
@@ -41,11 +49,27 @@ export default {
   props: {
     commentData: {
       type: Array,
-      required: true
+      required: true,
     }
   },
   computed: {
-    ...mapGetters(["isLoading"])
+    ...mapGetters(['isLoading'])
+  },
+  methods: {
+    handelDeleteClick (answerId) {
+      this.isShowToast = true
+      this.deleteTipmassage = '你真的想要删除该回答吗？'
+      this.deleteId = answerId
+    },
+    handelDeleteConfirm () {
+      this.$store.dispatch(FETCH_DELETE_ANSWER, this.deleteId)
+      this.isShowToast = false
+      this.deleteTipmassage = ''
+    },
+    handelDeleteCancel () {
+      this.isShowToast = false
+      this.deleteTipmassage = ''
+    },
   }
 };
 </script>
@@ -77,11 +101,8 @@ export default {
     color: @fontColor;
     justify-content: space-between;
     .action {
-      display: flex;
+      margin: 0 30px 0 auto;
     }
-   .delete{
-     margin-left: 10px;
-   }
   }
 }
 </style>
